@@ -1,7 +1,47 @@
+:root {
+  --clock-container-size: 300px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .clockContainer {
-  margin: 30vh auto;
-  width: 300px;
-  height: 300px;
+  position: absolute;
+  margin: 30vh calc(50vw - 150px);
+  width: var(--clock-container-size);
+  height: var(--clock-container-size);
   background-color: gray;
+  border-radius: 50%;
+  border: solid 7px black;
+}
+
+#seconds {
+  position: absolute;
+  transform-origin: bottom;
+  background-color: black;
+  border-radius: 5px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 2%;
+  top: 15%;
+  height: 35%;
+  opacity: 90%;
+}
+
+#centerBall {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  background-color: black;
+  width: 5%;
+  height: 5%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
   border-radius: 50%;
 }

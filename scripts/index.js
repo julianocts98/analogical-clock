@@ -36,14 +36,6 @@ async function mainLoop() {
   }
 }
 
-function initializeClock() {
-  const now = new Date();
-  updateSecondsPointer(now.getSeconds());
-  updateMinutesPointer(now.getMinutes());
-  updateHoursPointer(now.getHours());
-}
-
 document.body.onload = async () => {
-  initializeClock();
   await mainLoop();
 };

@@ -6,7 +6,7 @@ Clone to your machine and simply open ``index.html``.
 
 ## TODO
 
-- [ ] Add functional hour and minute pointers. 
+- [X] Add functional hour and minute pointers. 
 - [ ] Add ticks and numbers to the watch interface.
 - [ ] Improve CSS bringing depth to the watch.
 - [ ] Add timezone selector for the watch.

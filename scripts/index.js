@@ -26,12 +26,16 @@ function updateHoursPointer(hours) {
   hoursPointer.style.transform = `rotate(${degreesToRotate}deg)`;
 }
 
+function updateClock(date) {
+  updateSecondsPointer(date.getSeconds());
+  updateMinutesPointer(date.getMinutes());
+  updateHoursPointer(date.getHours());
+}
+
 async function mainLoop() {
   while (true) {
     const now = new Date();
-    updateSecondsPointer(now.getSeconds());
-    updateMinutesPointer(now.getMinutes());
-    updateHoursPointer(now.getHours());
+    updateClock(now);
     await sleep(1000);
   }
 }

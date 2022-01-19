@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 
-.clockContainer {
+#clockContainer {
   position: absolute;
   margin: 30vh calc(50vw - 150px);
   width: var(--clock-container-size);

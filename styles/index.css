@@ -48,3 +48,19 @@
   height: 35%;
   opacity: 90%;
 }
+
+#minutes {
+  background-color: black;
+  width: 1.3%;
+  top: 18%;
+  height: 32%;
+  opacity: 90%;
+}
+
+#hours {
+  background-color: black;
+  width: 2.5%;
+  top: 25%;
+  height: 25%;
+  opacity: 90%;
+}

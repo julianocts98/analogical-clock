@@ -16,21 +16,6 @@
   border: solid 7px black;
 }
 
-#seconds {
-  position: absolute;
-  transform-origin: bottom;
-  background-color: black;
-  border-radius: 5px;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  width: 2%;
-  top: 15%;
-  height: 35%;
-  opacity: 90%;
-}
-
 #centerBall {
   position: absolute;
   top: 0%;
@@ -44,4 +29,22 @@
   bottom: 0;
   margin: auto;
   border-radius: 50%;
+}
+
+.pointer {
+  position: absolute;
+  transform-origin: bottom;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+}
+
+#seconds {
+  background-color: red;
+  width: 0.8%;
+  top: 15%;
+  height: 35%;
+  opacity: 90%;
 }

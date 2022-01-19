@@ -64,3 +64,12 @@
   height: 25%;
   opacity: 90%;
 }
+
+#timezoneContainer {
+  margin: auto;
+  width: 15%;
+}
+
+#timezoneContainer select {
+  width: 200px;
+}

@@ -1,7 +1,8 @@
 # Analogical Watch
-
 A simple project to practice HTML, CSS and Javascript through the creation of an analogical watch. 
 
+## How to use
+Clone to your machine and simply open ``index.html``.
 
 ## TODO
 

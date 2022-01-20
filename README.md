@@ -12,4 +12,4 @@ Clone to your machine and simply open ``index.html``.
 - [ ] Add ticks and numbers to the clock's interface.
 - [ ] Improve CSS bringing depth to the clock.
 - [X] Add timezone selector for the clock.
-- [ ] Make clock work properly after selected a timezone even if internet loses conection.
+- [ ] Make clock work properly after selected a timezone even if internet loses connection. (Ongoing, still need adjustments)

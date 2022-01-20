@@ -8,6 +8,9 @@ const DEGREE_PER_SECOND = 360 / 60;
 const DEGREE_PER_MINUTE = 360 / 60;
 const DEGREE_PER_HOUR = 360 / 12;
 
+let timeOffset = 0;
+let isOnline = true;
+
 const WORLD_TIME_API_URL = "https://worldtimeapi.org/api/timezone";
 
 async function getTimezones() {
@@ -16,27 +19,37 @@ async function getTimezones() {
 }
 
 async function getDatetime() {
-  const timezoneSelected = timezoneSelect.selectedOptions[0].value;
-  const response = await fetch(`${WORLD_TIME_API_URL}/${timezoneSelected}`);
-  const data = await response.json();
-  return data.datetime;
+  try {
+    const timezoneSelected = timezoneSelect.selectedOptions[0].value;
+    const response = await fetch(`${WORLD_TIME_API_URL}/${timezoneSelected}`);
+    const data = await response.json();
+    return data.datetime;
+  } catch (error) {
+    return false;
+  }
 }
 
 async function getActualDate() {
   if (timezoneSelect.selectedIndex === 0) return new Date();
   const datetime = await getDatetime();
-  const time = datetime.substring(0, 26);
+  if (datetime) {
+    const time = datetime.substring(0, 26);
+    return new Date(time);
+  }
+  const time = new Date().getTime() + timeOffset;
   return new Date(time);
 }
 
 async function fillSelectWithTimezones() {
-  const timezonesAvailable = await getTimezones();
-  for (timezone of timezonesAvailable) {
-    const option = document.createElement("option");
-    option.value = timezone;
-    option.text = timezone;
-    timezoneSelect.appendChild(option);
-  }
+  try {
+    const timezonesAvailable = await getTimezones();
+    for (timezone of timezonesAvailable) {
+      const option = document.createElement("option");
+      option.value = timezone;
+      option.text = timezone;
+      timezoneSelect.appendChild(option);
+    }
+  } catch (error) {}
 }
 
 function sleep(ms) {
@@ -75,4 +88,10 @@ async function mainLoop() {
 document.body.onload = async () => {
   await fillSelectWithTimezones();
   await mainLoop();
+};
+
+timezoneSelect.onchange = async () => {
+  const localTime = new Date();
+  const timezoneTime = await getActualDate();
+  timeOffset = timezoneTime.getTime() - localTime.getTime();
 };

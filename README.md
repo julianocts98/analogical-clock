@@ -9,7 +9,7 @@ Clone to your machine and simply open ``index.html``.
 ## TODO
 
 - [X] Add functional hour and minute pointers. 
-- [ ] Add ticks and numbers to the clock's interface (WIP, intend to add then procedurally through Javascript).
+- [ ] Add ticks and numbers to the clock's interface (WIP, need to fix number's alignment and distance from ticks).
 - [ ] Improve CSS bringing depth to the clock.
 - [X] Add timezone selector for the clock.
 - [X] Make clock work properly after selected a timezone even if internet loses connection.

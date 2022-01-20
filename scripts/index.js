@@ -86,6 +86,7 @@ async function mainLoop() {
 }
 
 document.body.onload = async () => {
+  spawnTicksAndClockNumbers();
   await fillSelectWithTimezones();
   await mainLoop();
 };
@@ -95,3 +96,49 @@ timezoneSelect.onchange = async () => {
   const timezoneTime = await getActualDate();
   timeOffset = timezoneTime.getTime() - localTime.getTime();
 };
+
+function spawnTick() {
+  const tick = document.createElement("div");
+  tick.className = "tick";
+  clockContainer.appendChild(tick);
+  return tick;
+}
+
+function spawnClockNumber(number) {
+  const clockNumber = document.createElement("span");
+  clockNumber.className = "clockNumber";
+  clockNumber.innerHTML = number;
+  clockContainer.appendChild(clockNumber);
+  return clockNumber;
+}
+
+function spawnTicksAndClockNumbers() {
+  const degreesPerElement = 360 / 12;
+  let angle, number;
+  for (
+    angle = 0, number = 1;
+    angle < 360;
+    angle += degreesPerElement, number++
+  ) {
+    const tick = spawnTick();
+    positionTick(tick, angle);
+    const clockNumber = spawnClockNumber(number);
+    positionClockNumber(clockNumber, angle);
+  }
+}
+
+function getTickTransform(angleInDegree) {
+  return `rotate(${angleInDegree}deg) translate(0px, -130px)`;
+}
+
+function getClockNumberTransform(angleInDegree) {
+  return `rotate(${angleInDegree}deg) translate(0px, -100px) rotate(-${angleInDegree}deg)`;
+}
+
+function positionTick(tick, angleInDegree) {
+  tick.style.transform = getTickTransform(angleInDegree);
+}
+
+function positionClockNumber(clockNumber, angleInDegree) {
+  clockNumber.style.transform = getClockNumberTransform(angleInDegree);
+}

@@ -67,44 +67,28 @@
 
 .tick {
   position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
   width: 1.2%;
   height: 6%;
   border-radius: 15px;
   background-color: black;
-  transform-origin: bottom;
 }
 
-#tick1 {
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#tick2 {
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin-top: auto;
-  margin-bottom: auto;
-  transform: rotate(-90deg);
-}
-
-#tick3 {
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  bottom: 0;
-}
-
-#tick4 {
+.clockNumber {
+  position: absolute;
   left: 0;
   top: 0;
+  right: 0;
   bottom: 0;
-  margin-top: auto;
-  margin-bottom: auto;
-  transform: rotate(90deg);
+  margin: auto;
+  color: black;
+  width: 25px;
+  height: 25px;
+  font-weight: 900;
 }
 
 #timezoneContainer {

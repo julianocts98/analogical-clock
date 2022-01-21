@@ -114,25 +114,24 @@ function createClockNumber(number) {
 
 function createTicksAndClockNumbers() {
   const degreesPerElement = 360 / 12;
-  let angle, number;
   for (
-    angle = 0, number = 1;
+    let angle = 0, number = 0;
     angle < 360;
     angle += degreesPerElement, number++
   ) {
     const tick = createTick();
-    positionTick(tick, angle);
-    const clockNumber = createClockNumber(number);
-    positionClockNumber(clockNumber, angle);
+    positionTick(tick, -angle);
+    const clockNumber = createClockNumber(12 - number);
+    positionClockNumber(clockNumber, -angle);
   }
 }
 
 function getTickTransform(angleInDegree) {
-  return `rotate(${angleInDegree}deg) translate(0px, -130px)`;
+  return `rotate(${-angleInDegree}deg) translate(0px, -130px)`;
 }
 
 function getClockNumberTransform(angleInDegree) {
-  return `rotate(${angleInDegree}deg) translate(0px, -100px) rotate(-${angleInDegree}deg)`;
+  return `rotate(${angleInDegree}deg) translate(0px, -100px) rotate(${-angleInDegree}deg)`;
 }
 
 function positionTick(tick, angleInDegree) {

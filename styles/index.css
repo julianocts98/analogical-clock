@@ -103,7 +103,11 @@
 
 #timezoneContainer {
   margin: auto;
-  width: 15%;
+  width: 12%;
+}
+
+#timezoneContainer a {
+  text-decoration: none;
 }
 
 #timezoneContainer select {

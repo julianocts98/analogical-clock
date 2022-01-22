@@ -80,26 +80,6 @@ function updateClock(date) {
   updateHoursPointer(date);
 }
 
-async function mainLoop() {
-  while (true) {
-    const now = await getActualDate();
-    updateClock(now);
-    await sleep(1000);
-  }
-}
-
-document.body.onload = async () => {
-  createTicksAndClockNumbers();
-  await fillSelectWithTimezones();
-  await mainLoop();
-};
-
-timezoneSelect.onchange = async () => {
-  const localTime = new Date();
-  const timezoneTime = await getActualDate();
-  timeOffset = timezoneTime.getTime() - localTime.getTime();
-};
-
 function createBigTick() {
   const tick = document.createElement("div");
   tick.className = "tick bigTick";
@@ -158,3 +138,23 @@ function positionTick(tick, angleInDegree) {
 function positionClockNumber(clockNumber, angleInDegree) {
   clockNumber.style.transform = getClockNumberTransform(angleInDegree);
 }
+
+timezoneSelect.onchange = async () => {
+  const localTime = new Date();
+  const timezoneTime = await getActualDate();
+  timeOffset = timezoneTime.getTime() - localTime.getTime();
+};
+
+async function mainLoop() {
+  while (true) {
+    const now = await getActualDate();
+    updateClock(now);
+    await sleep(1000);
+  }
+}
+
+document.body.onload = async () => {
+  createTicksAndClockNumbers();
+  await fillSelectWithTimezones();
+  await mainLoop();
+};

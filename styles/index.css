@@ -11,7 +11,7 @@
   margin: 30vh calc(50vw - 150px);
   width: var(--clock-container-size);
   height: var(--clock-container-size);
-  background-color: gray;
+  background-color: F7F7F7;
   border-radius: 50%;
   border: solid 7px black;
 }
@@ -39,6 +39,7 @@
   margin-left: auto;
   margin-right: auto;
   border-radius: 5px;
+  box-shadow: red;
 }
 
 #seconds {

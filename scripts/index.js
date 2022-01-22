@@ -97,9 +97,16 @@ timezoneSelect.onchange = async () => {
   timeOffset = timezoneTime.getTime() - localTime.getTime();
 };
 
-function createTick() {
+function createBigTick() {
   const tick = document.createElement("div");
-  tick.className = "tick";
+  tick.className = "tick bigTick";
+  clockContainer.appendChild(tick);
+  return tick;
+}
+
+function createSmallTick() {
+  const tick = document.createElement("div");
+  tick.className = "tick smallTick";
   clockContainer.appendChild(tick);
   return tick;
 }
@@ -107,6 +114,7 @@ function createTick() {
 function createClockNumber(number) {
   const clockNumber = document.createElement("span");
   clockNumber.className = "clockNumber";
+  clockNumber.id = `clockNumber${number}`;
   clockNumber.innerHTML = number;
   clockContainer.appendChild(clockNumber);
   return clockNumber;
@@ -119,19 +127,25 @@ function createTicksAndClockNumbers() {
     angle < 360;
     angle += degreesPerElement, number++
   ) {
-    const tick = createTick();
+    const tick = createBigTick();
     positionTick(tick, -angle);
     const clockNumber = createClockNumber(12 - number);
     positionClockNumber(clockNumber, -angle);
   }
+  for (let angle = 0; angle < 360; angle += 360 / 60) {
+    if (angle % 30 != 0) {
+      const tick = createSmallTick();
+      positionTick(tick, -angle);
+    }
+  }
 }
 
 function getTickTransform(angleInDegree) {
-  return `rotate(${-angleInDegree}deg) translate(0px, -130px)`;
+  return `rotate(${-angleInDegree}deg) translate(0px, -135px)`;
 }
 
 function getClockNumberTransform(angleInDegree) {
-  return `rotate(${angleInDegree}deg) translate(0px, -100px) rotate(${-angleInDegree}deg)`;
+  return `rotate(${angleInDegree}deg) translate(0px, -113px) rotate(${-angleInDegree}deg)`;
 }
 
 function positionTick(tick, angleInDegree) {

@@ -72,10 +72,18 @@
   right: 0;
   bottom: 0;
   margin: auto;
-  width: 1.2%;
-  height: 6%;
   border-radius: 15px;
   background-color: black;
+}
+
+.bigTick {
+  width: 1.2%;
+  height: 6%;
+}
+
+.smallTick {
+  width: 0.5%;
+  height: 3%;
 }
 
 .clockNumber {
@@ -86,9 +94,11 @@
   bottom: 0;
   margin: auto;
   color: black;
+  font-size: 20px;
   width: 25px;
   height: 25px;
   font-weight: 900;
+  text-align: center;
 }
 
 #timezoneContainer {

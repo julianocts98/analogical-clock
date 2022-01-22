@@ -102,6 +102,7 @@
 }
 
 #timezoneContainer {
+  text-align: center;
   margin: auto;
   width: 12%;
 }
@@ -112,4 +113,35 @@
 
 #timezoneContainer select {
   width: 200px;
+}
+
+#connectivityContainer {
+  margin: auto;
+  width: 12%;
+  text-align: center;
+}
+
+#connectivityContainer h2 {
+  text-align: center;
+}
+
+#connectivityInterface {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+#connectivityInterface label {
+  grid-row: 1;
+  grid-column: 1/2 / span 2;
+  width: 200%;
+  font-weight: 900;
+}
+
+#connectivityInterface input {
+  grid-row: 2;
+  grid-column: 1/2 / span 2;
+  width: 200%;
+}
+#connectivityInterface button {
+  grid-row: 3;
 }

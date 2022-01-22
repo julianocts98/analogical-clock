@@ -10,6 +10,5 @@ Clone to your machine and simply open ``index.html``.
 
 - [X] Add functional hour and minute pointers. 
 - [X] Add ticks and numbers to the clock's interface.
-- [ ] Improve CSS bringing depth to the clock.
 - [X] Add timezone selector for the clock.
 - [X] Make clock work properly after selected a timezone even if internet loses connection.

@@ -3,6 +3,8 @@ const secondsPointer = document.getElementById("seconds");
 const minutesPointer = document.getElementById("minutes");
 const hoursPointer = document.getElementById("hours");
 const timezoneSelect = document.getElementById("timezoneSelect");
+const createRoomBtn = document.getElementById("createRoomBtn");
+const connectRoomBtn = document.getElementById("connectRoomBtn");
 
 const DEGREES_PER_SECOND = 360 / 60;
 const DEGREES_PER_MINUTE = 360 / 60;

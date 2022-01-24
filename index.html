@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/index.css" />
+    <script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
     <script src="scripts/index.js" defer></script>
     <title>Analogical Clock</title>
   </head>
@@ -30,8 +31,8 @@
     <div id="connectivityContainer">
       <h2>Connectivity</h2>
       <div id="connectivityInterface">
-        <label for="roomName">Room's name</label>
-        <input type="text" id="roomName" />
+        <label for="roomNameField">Room's name</label>
+        <input type="text" id="roomNameField" />
         <button id="createRoomBtn">Create room</button>
         <button id="connectRoomBtn">Connect</button>
       </div>

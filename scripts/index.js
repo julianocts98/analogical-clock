@@ -3,6 +3,7 @@ const secondsPointer = document.getElementById("seconds");
 const minutesPointer = document.getElementById("minutes");
 const hoursPointer = document.getElementById("hours");
 const timezoneSelect = document.getElementById("timezoneSelect");
+const roomNameField = document.getElementById("roomNameField");
 const createRoomBtn = document.getElementById("createRoomBtn");
 const connectRoomBtn = document.getElementById("connectRoomBtn");
 
@@ -11,7 +12,18 @@ const DEGREES_PER_MINUTE = 360 / 60;
 const DEGREES_PER_HOUR = 360 / 12;
 
 let timeOffset = 0;
-let isOnline = true;
+let socket;
+
+function getSocketConnection() {
+  try {
+    socket = io("http://127.0.0.1:3000");
+    socket.on("welcome", (message) => {
+      console.log(message);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const WORLD_TIME_API_URL = "https://worldtimeapi.org/api/timezone";
 
@@ -141,6 +153,10 @@ function positionClockNumber(clockNumber, angleInDegree) {
   clockNumber.style.transform = getClockNumberTransform(angleInDegree);
 }
 
+createRoomBtn.onclick = () => {
+  if (socket) socket.emit("timezoneRoom:create", roomNameField.value);
+};
+
 timezoneSelect.onchange = async () => {
   const localTime = new Date();
   const timezoneTime = await getActualDate();
@@ -157,6 +173,15 @@ async function mainLoop() {
 
 document.body.onload = async () => {
   createTicksAndClockNumbers();
+  getSocketConnection();
+  setSocketListeners();
   await fillSelectWithTimezones();
   await mainLoop();
 };
+
+function setSocketListeners() {
+  socket.on("timezoneRoom:create:result", (message, timezoneRoomByUserId) => {
+    alert(message);
+    if (timezoneRoomByUserId) console.log(timezoneRoomByUserId);
+  });
+}

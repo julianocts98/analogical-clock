@@ -8,7 +8,7 @@
 
 #clockContainer {
   position: absolute;
-  margin: 30vh calc(50vw - 150px);
+  margin: 300px calc(50vw - 150px);
   width: var(--clock-container-size);
   height: var(--clock-container-size);
   background-color: F7F7F7;
@@ -139,7 +139,7 @@
 
 #connectivityInterface input {
   grid-row: 2;
-  grid-column: 1/2 / span 2;
+  grid-column: 1/2;
   width: 200%;
 }
 #connectivityInterface button {

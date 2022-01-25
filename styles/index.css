@@ -145,3 +145,20 @@
 #connectivityInterface button {
   grid-row: 3;
 }
+
+#timezoneRoomContainer {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 300px;
+  height: 400px;
+  border: 2px solid black;
+}
+
+#timezoneRoomContainer h2 {
+  text-align: center;
+}
+
+#timezoneRoomHeader {
+  text-align: center;
+}

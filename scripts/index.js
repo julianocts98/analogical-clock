@@ -148,7 +148,7 @@ function populateTimezoneRoomContainer(roomName, userIds) {
   timezoneRoomHeader.innerHTML = roomName;
 
   if (Array.isArray(userIds)) {
-    for (userId of userIds) {
+    for (const userId of userIds) {
       const userLi = document.createElement("li");
       if (userId === roomOwner) {
         userLi.innerHTML = userId + " [Owner]";

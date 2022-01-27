@@ -6,6 +6,8 @@ const timezoneSelect = document.getElementById("timezoneSelect");
 const roomNameField = document.getElementById("roomNameField");
 const createRoomBtn = document.getElementById("createRoomBtn");
 const connectRoomBtn = document.getElementById("connectRoomBtn");
+const timezoneRoomHeader = document.getElementById("timezoneRoomHeader");
+const connectedUsersUL = document.getElementById("connectedUsersUL");
 
 const DEGREES_PER_SECOND = 360 / 60;
 const DEGREES_PER_MINUTE = 360 / 60;
@@ -13,50 +15,22 @@ const DEGREES_PER_HOUR = 360 / 12;
 
 let timeOffset = 0;
 let socket;
+let roomOwner = "";
 
-function getSocketConnection() {
-  try {
-    socket = io("http://127.0.0.1:3000");
-    socket.on("welcome", (message) => {
-      console.log(message);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-const WORLD_TIME_API_URL = "https://worldtimeapi.org/api/timezone";
-
-async function getTimezones() {
-  const response = await fetch(WORLD_TIME_API_URL);
-  return response.json();
-}
-
-async function getDatetime() {
-  try {
-    const timezoneSelected = timezoneSelect.selectedOptions[0].value;
-    const response = await fetch(`${WORLD_TIME_API_URL}/${timezoneSelected}`);
-    const data = await response.json();
-    return data.datetime;
-  } catch (error) {
-    return false;
-  }
+function updateTimeOffset(datetime) {
+  const localTime = new Date();
+  const timezoneTime = new Date(datetime);
+  timeOffset = timezoneTime.getTime() - localTime.getTime();
 }
 
 async function getActualDate() {
   if (timezoneSelect.selectedIndex === 0) return new Date();
-  const datetime = await getDatetime();
-  if (datetime) {
-    const time = datetime.substring(0, 26);
-    return new Date(time);
-  }
   const time = new Date().getTime() + timeOffset;
   return new Date(time);
 }
 
-async function fillSelectWithTimezones() {
+async function fillSelectWithTimezones(timezonesAvailable) {
   try {
-    const timezonesAvailable = await getTimezones();
     for (timezone of timezonesAvailable) {
       const option = document.createElement("option");
       option.value = timezone;
@@ -154,14 +128,43 @@ function positionClockNumber(clockNumber, angleInDegree) {
 }
 
 createRoomBtn.onclick = () => {
-  if (socket) socket.emit("timezoneRoom:create", roomNameField.value);
+  socket.emit("timezoneRoom:create", roomNameField.value);
+};
+
+connectRoomBtn.onclick = () => {
+  socket.emit("timezoneRoom:join", roomNameField.value);
 };
 
 timezoneSelect.onchange = async () => {
-  const localTime = new Date();
-  const timezoneTime = await getActualDate();
-  timeOffset = timezoneTime.getTime() - localTime.getTime();
+  socket.emit("timezoneChanged", timezoneSelect.selectedOptions[0].value);
 };
+
+function clearTimezoneRoomContainer() {
+  connectedUsersUL.innerHTML = "";
+  timezoneRoomHeader.innerHTML = "";
+}
+
+function populateTimezoneRoomContainer(roomName, userIds) {
+  timezoneRoomHeader.innerHTML = roomName;
+
+  if (Array.isArray(userIds)) {
+    for (userId of userIds) {
+      const userLi = document.createElement("li");
+      if (userId === roomOwner) {
+        userLi.innerHTML = userId + " [Owner]";
+        userLi.style.fontWeight = 600;
+        userLi.style.color = "red";
+      } else {
+        userLi.innerHTML = userId;
+      }
+      connectedUsersUL.appendChild(userLi);
+    }
+  } else {
+    const userLi = document.createElement("li");
+    userLi.innerHTML = userIds;
+    connectedUsersUL.appendChild(userLi);
+  }
+}
 
 async function mainLoop() {
   while (true) {
@@ -175,13 +178,65 @@ document.body.onload = async () => {
   createTicksAndClockNumbers();
   getSocketConnection();
   setSocketListeners();
-  await fillSelectWithTimezones();
   await mainLoop();
 };
 
+async function getSocketConnection() {
+  try {
+    socket = io("http://127.0.0.1:3000");
+    socket.on("welcome", (message) => {
+      console.log(message);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 function setSocketListeners() {
-  socket.on("timezoneRoom:create:result", (message, timezoneRoomByUserId) => {
-    alert(message);
-    if (timezoneRoomByUserId) console.log(timezoneRoomByUserId);
+  socket.on("fetchTimezones", async (message, timezones) => {
+    if (timezoneSelect.options.length === 1) {
+      console.log(message);
+      await fillSelectWithTimezones(timezones);
+    }
+  });
+
+  socket.on("datetimeOfTimezone", async (datetimeOfTimezone) => {
+    console.log(datetimeOfTimezone);
+    updateTimeOffset(datetimeOfTimezone);
+  });
+
+  socket.on(
+    "timezoneRoom:create:result",
+    (message, statusResponse, roomName, owner) => {
+      alert(message);
+      if (statusResponse) {
+        roomOwner = owner;
+        clearTimezoneRoomContainer();
+        populateTimezoneRoomContainer(roomName, socket.id);
+      }
+    }
+  );
+
+  socket.on(
+    "timezoneRoom:join:result",
+    (message, statusResponse, roomName, users, owner) => {
+      alert(message);
+      if (statusResponse) {
+        roomOwner = owner;
+        clearTimezoneRoomContainer();
+        populateTimezoneRoomContainer(roomName, users);
+      }
+    }
+  );
+
+  socket.on("timezoneRoom:newUserJoined", (roomName, users) => {
+    clearTimezoneRoomContainer();
+    populateTimezoneRoomContainer(roomName, users);
+  });
+
+  socket.on("timezoneRoom:userLeft", (roomName, users, newOwner) => {
+    roomOwner = newOwner;
+    clearTimezoneRoomContainer();
+    populateTimezoneRoomContainer(roomName, users);
   });
 }

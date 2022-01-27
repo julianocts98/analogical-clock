@@ -162,3 +162,11 @@
 #timezoneRoomHeader {
   text-align: center;
 }
+
+li.roomOwner {
+  color: red;
+  font-weight: 600;
+}
+li.roomOwner::after {
+  content: " [Owner]";
+}

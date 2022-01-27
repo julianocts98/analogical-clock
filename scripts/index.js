@@ -150,13 +150,8 @@ function populateTimezoneRoomContainer(roomName, userIds) {
   if (Array.isArray(userIds)) {
     for (const userId of userIds) {
       const userLi = document.createElement("li");
-      if (userId === roomOwner) {
-        userLi.innerHTML = userId + " [Owner]";
-        userLi.style.fontWeight = 600;
-        userLi.style.color = "red";
-      } else {
-        userLi.innerHTML = userId;
-      }
+      userLi.textContent = userId;
+      if (userId === roomOwner) userLi.classList.add("roomOwner");
       connectedUsersUL.appendChild(userLi);
     }
   } else {

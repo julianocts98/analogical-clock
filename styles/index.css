@@ -170,3 +170,11 @@ li.roomOwner {
 li.roomOwner::after {
   content: " [Owner]";
 }
+
+#personalInfo {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  font-weight: 900;
+  color: blue;
+}

@@ -8,6 +8,7 @@ const createRoomBtn = document.getElementById("createRoomBtn");
 const connectRoomBtn = document.getElementById("connectRoomBtn");
 const timezoneRoomHeader = document.getElementById("timezoneRoomHeader");
 const connectedUsersUL = document.getElementById("connectedUsersUL");
+const personalInfo = document.getElementById("personalInfo");
 
 const DEGREES_PER_SECOND = 360 / 60;
 const DEGREES_PER_MINUTE = 360 / 60;
@@ -180,6 +181,7 @@ async function getSocketConnection() {
   try {
     socket = io("http://127.0.0.1:3000");
     socket.on("welcome", (message) => {
+      personalInfo.textContent = socket.id;
       console.log(message);
     });
   } catch (error) {

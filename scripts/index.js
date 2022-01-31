@@ -138,7 +138,10 @@ connectRoomBtn.onclick = () => {
 };
 
 timezoneSelect.onchange = async () => {
-  socket.emit("timezoneChanged", timezoneSelect.selectedOptions[0].value);
+  const selectedTimezone = timezoneSelect.selectedOptions[0].value;
+  if (selectedTimezone === "local") timeOffset = 0;
+  const ownerDatetime = selectedTimezone === "local" ? new Date() : undefined;
+  socket.emit("timezoneChanged", selectedTimezone, ownerDatetime);
 };
 
 function clearTimezoneRoomContainer() {
@@ -148,12 +151,12 @@ function clearTimezoneRoomContainer() {
 
 function populateTimezoneRoomContainer(roomName, userIds) {
   timezoneRoomHeader.innerHTML = roomName;
-
+  timezoneSelect.disabled = roomOwnerId !== ownSocketId;
   if (Array.isArray(userIds)) {
     for (const userId of userIds) {
       const userLi = document.createElement("li");
       userLi.textContent = userId;
-      if (userId === roomOwner) userLi.classList.add("roomOwner");
+      if (userId === roomOwnerId) userLi.classList.add("roomOwner");
       connectedUsersUL.appendChild(userLi);
     }
   } else {
@@ -194,6 +197,7 @@ async function getSocketConnection() {
 function getTimeString(dateObject) {
   return `${dateObject.getHours()}:${dateObject.getMinutes()}:${dateObject.getSeconds()}`;
 }
+
 function setSocketListeners() {
   socket.on("fetchTimezones", async (message, timezones) => {
     if (timezoneSelect.options.length === 1) {
@@ -202,9 +206,18 @@ function setSocketListeners() {
     }
   });
 
-  socket.on("datetimeOfTimezone", async (datetimeOfTimezone) => {
-    console.log(datetimeOfTimezone);
+  socket.on(
+    "datetimeOfTimezone",
+    async (datetimeOfTimezone, selectedTimezone) => {
+      if (selectedTimezone) timezoneSelect.value = selectedTimezone;
     updateTimeOffset(datetimeOfTimezone);
+    }
+  );
+
+  socket.on("requestDateInfo", () => {
+    console.log("Recebido");
+    const selectedTimezone = timezoneSelect.selectedOptions[0].value;
+    socket.emit("dateForUpdate", selectedTimezone, new Date());
   });
 
   socket.on(

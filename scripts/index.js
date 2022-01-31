@@ -191,6 +191,9 @@ async function getSocketConnection() {
   }
 }
 
+function getTimeString(dateObject) {
+  return `${dateObject.getHours()}:${dateObject.getMinutes()}:${dateObject.getSeconds()}`;
+}
 function setSocketListeners() {
   socket.on("fetchTimezones", async (message, timezones) => {
     if (timezoneSelect.options.length === 1) {

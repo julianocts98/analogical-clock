@@ -147,7 +147,7 @@
 }
 
 #timezoneRoomContainer {
-  position: absolute;
+  position: fixed;
   top: 2px;
   right: 2px;
   width: 300px;
@@ -177,4 +177,13 @@ li.roomOwner::after {
   bottom: 1rem;
   font-weight: 900;
   color: blue;
+}
+
+#leaveButton {
+  position: absolute;
+  width: 120px;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
 }

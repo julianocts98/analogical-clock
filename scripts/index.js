@@ -6,6 +6,7 @@ const timezoneSelect = document.getElementById("timezoneSelect");
 const roomNameField = document.getElementById("roomNameField");
 const createRoomBtn = document.getElementById("createRoomBtn");
 const connectRoomBtn = document.getElementById("connectRoomBtn");
+const timezoneRoomContainer = document.getElementById("timezoneRoomContainer");
 const timezoneRoomHeader = document.getElementById("timezoneRoomHeader");
 const connectedUsersUL = document.getElementById("connectedUsersUL");
 const personalInfo = document.getElementById("personalInfo");
@@ -164,6 +165,25 @@ function populateTimezoneRoomContainer(roomName, userIds) {
     userLi.innerHTML = userIds;
     connectedUsersUL.appendChild(userLi);
   }
+  leaveButtonExists() ? undefined : createLeaveButton();
+}
+
+function leaveButtonExists() {
+  return document.getElementById("leaveButton") !== null;
+}
+
+function createLeaveButton() {
+  const leaveButton = document.createElement("button");
+  leaveButton.textContent = "Leave room";
+  leaveButton.id = "leaveButton";
+  leaveButton.onclick = leaveRoom;
+  timezoneRoomContainer.appendChild(leaveButton);
+}
+
+function leaveRoom(event) {
+  socket.emit("timezoneRoom:leave");
+  event.target.remove();
+  clearTimezoneRoomContainer();
 }
 
 async function mainLoop() {
@@ -210,12 +230,11 @@ function setSocketListeners() {
     "datetimeOfTimezone",
     async (datetimeOfTimezone, selectedTimezone) => {
       if (selectedTimezone) timezoneSelect.value = selectedTimezone;
-    updateTimeOffset(datetimeOfTimezone);
+      updateTimeOffset(datetimeOfTimezone);
     }
   );
 
   socket.on("requestDateInfo", () => {
-    console.log("Recebido");
     const selectedTimezone = timezoneSelect.selectedOptions[0].value;
     socket.emit("dateForUpdate", selectedTimezone, new Date());
   });

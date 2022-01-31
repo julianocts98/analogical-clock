@@ -8,7 +8,8 @@ This project is intended to be run together with its server that can be found he
 
 ## How to use
 
-Clone to your machine and simply open `index.html`.
+1. Clone the server and run it following the instructions at [Analogical Clock Server](https://github.com/julianocts98/analogical-clock-server) repository.
+2. Clone this respository to your machine and simply open `index.html`.
 
 ## TODO
 

@@ -17,6 +17,7 @@ const DEGREES_PER_HOUR = 360 / 12;
 let timeOffset = 0;
 let socket;
 let roomOwnerId = "";
+let ownSocketId = "";
 
 function updateTimeOffset(datetime) {
   const localTime = new Date();
@@ -181,7 +182,8 @@ async function getSocketConnection() {
   try {
     socket = io("http://127.0.0.1:3000");
     socket.on("welcome", (message) => {
-      personalInfo.textContent = socket.id;
+      ownSocketId = socket.id;
+      personalInfo.textContent = ownSocketId;
       console.log(message);
     });
   } catch (error) {

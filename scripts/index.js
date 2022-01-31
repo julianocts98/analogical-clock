@@ -16,7 +16,7 @@ const DEGREES_PER_HOUR = 360 / 12;
 
 let timeOffset = 0;
 let socket;
-let roomOwner = "";
+let roomOwnerId = "";
 
 function updateTimeOffset(datetime) {
   const localTime = new Date();
@@ -207,7 +207,7 @@ function setSocketListeners() {
     (message, statusResponse, roomName, owner) => {
       alert(message);
       if (statusResponse) {
-        roomOwner = owner;
+        roomOwnerId = owner;
         clearTimezoneRoomContainer();
         populateTimezoneRoomContainer(roomName, socket.id);
       }
@@ -219,7 +219,7 @@ function setSocketListeners() {
     (message, statusResponse, roomName, users, owner) => {
       alert(message);
       if (statusResponse) {
-        roomOwner = owner;
+        roomOwnerId = owner;
         clearTimezoneRoomContainer();
         populateTimezoneRoomContainer(roomName, users);
       }
@@ -232,7 +232,7 @@ function setSocketListeners() {
   });
 
   socket.on("timezoneRoom:userLeft", (roomName, users, newOwner) => {
-    roomOwner = newOwner;
+    roomOwnerId = newOwner;
     clearTimezoneRoomContainer();
     populateTimezoneRoomContainer(roomName, users);
   });
